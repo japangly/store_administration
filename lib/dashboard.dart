@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:store_administration/inventory_screen.dart';
+import 'package:store_administration/inventory_list_screen.dart';
+import 'package:store_administration/service_list_screen.dart';
 import 'package:store_administration/staff_list_screen.dart';
 import 'package:store_administration/themes/helpers/theme_colors.dart';
 
@@ -112,6 +113,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               fontSize: 20.0)),
                     ]),
               ),
+              onTap: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (_) => ListServiceScreen())),
             ),
             _buildTile(
               Padding(

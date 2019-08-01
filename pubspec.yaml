@@ -27,6 +27,8 @@ dependencies:
   flutter_icons: ^0.1.4
   page_transition: ^1.1.4
   sliding_up_panel: ^0.3.4
+  flutter_slidable: ^0.5.3
+  recase: ^2.0.1
 
 
 
