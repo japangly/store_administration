@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:store_administration/inventory_list_screen.dart';
 import 'package:store_administration/service_list_screen.dart';
+
+import 'package:store_administration/rank_screen.dart';
 import 'package:store_administration/staff_list_screen.dart';
 import 'package:store_administration/themes/helpers/theme_colors.dart';
 
@@ -120,25 +122,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Material(
-                          color: confirmColor,
-                          shape: CircleBorder(),
-                          child: Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Icon(Icons.star,
-                                color: Colors.white, size: 30.0),
-                          )),
-                      Padding(padding: EdgeInsets.only(bottom: 16.0)),
-                      Text('Rank',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20.0)),
-                    ]),
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Material(
+                        color: confirmColor,
+                        shape: CircleBorder(),
+                        child: Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child:
+                              Icon(Icons.star, color: Colors.white, size: 30.0),
+                        )),
+                    Padding(padding: EdgeInsets.only(bottom: 16.0)),
+                    Text('Rank',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20.0)),
+                  ],
+                ),
               ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => RankingScreen(),
+                  ),
+                );
+              },
             ),
             _buildTile(
               Padding(
