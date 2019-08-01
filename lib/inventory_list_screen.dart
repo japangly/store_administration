@@ -2,19 +2,19 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/octicons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:store_administration/product_details.dart';
 import 'package:store_administration/set_price_inventory.dart';
-import 'package:store_administration/staff_profile_screen.dart';
 import 'package:store_administration/themes/helpers/theme_colors.dart';
 
 import 'dialogs/delete_dialog.dart';
 import 'env.dart';
 
-class ListStaffScreen extends StatefulWidget {
+class InventoryScreen extends StatefulWidget {
   @override
-  _ListStaffScreenState createState() => _ListStaffScreenState();
+  _InventoryScreenState createState() => _InventoryScreenState();
 }
 
-class _ListStaffScreenState extends State<ListStaffScreen> {
+class _InventoryScreenState extends State<InventoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +22,7 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
       appBar: AppBar(
         elevation: 2.0,
         backgroundColor: Color(0xFF0c0c0c),
-        title: Text('Staff List',
+        title: Text('Inventory',
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w700,
@@ -48,7 +48,7 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => StaffProfile(),
+                      builder: (BuildContext context) => ProductDetails(),
                     ),
                   );
                 },
@@ -70,11 +70,9 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(8.0),
                                     child: Image.network(
-                                      'https://assets.nst.com.my/images/articles/olslisbpbd001a_1553661995.jpg',
+                                      'https://cdn.shopify.com/s/files/1/0838/7991/products/Shampoo_copy_e614e1d7-ab42-4426-bad8-f1782df3f4fa.jpg?v=1559147001',
                                       height:
                                           Environment().getHeight(height: 3.0),
-                                      width: Environment().getWidth(width: 6.0),
-                                      fit: BoxFit.fitHeight,
                                     ),
                                   ),
                                   Padding(
@@ -84,7 +82,7 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         AutoSizeText(
-                                          'Irene (Nita)',
+                                          'Sunsilk',
                                           style: TextStyle(
                                             color: whiteColor,
                                             fontWeight: FontWeight.bold,
@@ -93,24 +91,35 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
                                           maxFontSize: 128.0,
                                         ),
                                         AutoSizeText(
-                                          'Stock Manager',
+                                          'shampoo',
                                           style: TextStyle(color: Colors.grey),
                                           minFontSize: 18.0,
                                           maxFontSize: 128.0,
                                         ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: AutoSizeText(
-                                            '098 865 551',
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                            minFontSize: 18.0,
-                                            maxFontSize: 128.0,
-                                          ),
-                                        ),
                                       ],
                                     ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  AutoSizeText(
+                                    'Stock',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    minFontSize: 15.0,
+                                    maxFontSize: 128.0,
+                                  ),
+                                  AutoSizeText(
+                                    '200',
+                                    style: TextStyle(
+                                      color: Colors.green[500],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    minFontSize: 20.0,
+                                    maxFontSize: 128.0,
                                   ),
                                 ],
                               ),
@@ -124,11 +133,34 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  Text(
-                                    'Created at: 20/09/2019',
+                                  Icon(
+                                    Octicons.getIconData('primitive-dot'),
+                                    color: Colors.green[500],
+                                  ),
+                                  AutoSizeText(
+                                    'Price In: \$10.00',
                                     style: TextStyle(
-                                      color: Colors.grey,
+                                      color: Colors.green[500],
+                                      fontWeight: FontWeight.bold,
                                     ),
+                                    minFontSize: 15.0,
+                                    maxFontSize: 128.0,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Octicons.getIconData('primitive-dot'),
+                                    color: Colors.orange[500],
+                                  ),
+                                  AutoSizeText(
+                                    'Price Out: \$15.00 ',
+                                    style: TextStyle(
+                                        color: Colors.orange[500],
+                                        fontWeight: FontWeight.bold),
+                                    minFontSize: 15.0,
+                                    maxFontSize: 128.0,
                                   ),
                                 ],
                               ),
@@ -140,9 +172,9 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
                   ),
                   secondaryActions: <Widget>[
                     IconSlideAction(
-                      caption: 'Edit',
+                      caption: 'Set Price',
                       color: Colors.grey,
-                      icon: Icons.edit,
+                      icon: Icons.attach_money,
                       onTap: () => Navigator.of(context).push(MaterialPageRoute(
                           builder: (_) => SetPriceInventoryScreen())),
                     ),
