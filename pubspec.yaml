@@ -29,6 +29,8 @@ dependencies:
   sliding_up_panel: ^0.3.4
   flutter_slidable: ^0.5.3
   recase: ^2.0.1
+  flutter_datetime_picker: ^1.2.5
+  flutter_fluid_slider: ^1.0.1
 
 
 

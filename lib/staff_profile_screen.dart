@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:store_administration/staff_archievment.dart';
+import 'package:store_administration/staff_salary.dart';
 import 'package:store_administration/themes/helpers/theme_colors.dart';
 
 import 'env.dart';
@@ -54,24 +55,40 @@ class _StaffProfileState extends State<StaffProfile> {
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
                             'https://channel-korea.com/wp-content/uploads/2018/04/anoncraft.com_.jpg',
-                            height: Environment().getHeight(height: 8.0),
-                            width: Environment().getWidth(width: 16.0),
+                            height: Environment().getHeight(height: 5.0),
+                            width: Environment().getWidth(width: 12.0),
                             fit: BoxFit.fitHeight,
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding:
+                            const EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 0.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            AutoSizeText(
-                              'Irene',
-                              minFontSize: 24.0,
-                              maxFontSize: 128.0,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: whiteColor),
+                            Row(
+                              children: <Widget>[
+                                AutoSizeText(
+                                  'Bae Joo-hyun',
+                                  minFontSize: 20.0,
+                                  maxFontSize: 128.0,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: whiteColor),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 4.0,
+                                  ),
+                                  child: AutoSizeText(
+                                    '(Irene)',
+                                    minFontSize: 18.0,
+                                    maxFontSize: 128.0,
+                                    style: TextStyle(color: whiteColor),
+                                  ),
+                                ),
+                              ],
                             ),
                             AutoSizeText(
                               'Kort tver ey',
@@ -212,42 +229,6 @@ class _StaffProfileState extends State<StaffProfile> {
                                       MainAxisAlignment.spaceAround,
                                   children: <Widget>[
                                     AutoSizeText(
-                                      'Salary',
-                                      minFontSize: 16.0,
-                                      maxFontSize: 128.0,
-                                      style: TextStyle(
-                                        color: whiteColor,
-                                      ),
-                                    ),
-                                    AutoSizeText(
-                                      '25\$',
-                                      style: TextStyle(
-                                        color: whiteColor,
-                                      ),
-                                      minFontSize: 20.0,
-                                      maxFontSize: 128.0,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Card(
-                              color: blackColor,
-                              elevation: 5.0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: <Widget>[
-                                    AutoSizeText(
                                       'Experiene Points',
                                       style: TextStyle(
                                         color: whiteColor,
@@ -272,6 +253,53 @@ class _StaffProfileState extends State<StaffProfile> {
                       ),
                       Row(
                         children: <Widget>[
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        StaffSalary(),
+                                  ),
+                                );
+                              },
+                              child: Card(
+                                color: blackColor,
+                                elevation: 5.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: <Widget>[
+                                      AutoSizeText(
+                                        'Salary',
+                                        minFontSize: 16.0,
+                                        maxFontSize: 128.0,
+                                        style: TextStyle(
+                                          color: whiteColor,
+                                        ),
+                                      ),
+                                      AutoSizeText(
+                                        '25\$',
+                                        style: TextStyle(
+                                          color: whiteColor,
+                                        ),
+                                        minFontSize: 20.0,
+                                        maxFontSize: 128.0,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
@@ -305,36 +333,16 @@ class _StaffProfileState extends State<StaffProfile> {
                                         minFontSize: 16.0,
                                         maxFontSize: 128.0,
                                       ),
+                                      AutoSizeText(
+                                        '30',
+                                        style: TextStyle(
+                                          color: whiteColor,
+                                        ),
+                                        minFontSize: 20.0,
+                                        maxFontSize: 128.0,
+                                      ),
                                     ],
                                   ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Card(
-                              color: blackColor,
-                              elevation: 5.0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: <Widget>[
-                                    AutoSizeText(
-                                      'Calculate Salary',
-                                      style: TextStyle(
-                                        color: whiteColor,
-                                      ),
-                                      minFontSize: 16.0,
-                                      maxFontSize: 128.0,
-                                    ),
-                                  ],
                                 ),
                               ),
                             ),
