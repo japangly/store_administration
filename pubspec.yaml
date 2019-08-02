@@ -82,3 +82,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+  - family: Realistica
+    fonts:
+      - asset: assets/fonts/Realistica.otf
+  assets:
+      - assets/images/splash_screen.jpg
+      - assets/images/login.png

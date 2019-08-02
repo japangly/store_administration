@@ -79,7 +79,7 @@ class _SplashScreenStylesState extends State<SplashScreenStyles> {
             ),
             new Container(
               decoration: new BoxDecoration(
-                color: Colors.pink.withOpacity(0.6),
+                color: Colors.black.withOpacity(0.6),
               ),
             ),
             new Column(

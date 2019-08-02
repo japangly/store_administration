@@ -45,6 +45,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
+                                  fontSize: 30.0)),
+                          Text('100',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
                                   fontSize: 30.0))
                         ],
                       ),
@@ -85,6 +90,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
                               fontSize: 20.0)),
+                      Text('200',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20.0)),
                     ]),
               ),
               onTap: () => Navigator.of(context)
@@ -107,6 +117,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           )),
                       Padding(padding: EdgeInsets.only(bottom: 16.0)),
                       Text('Service',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20.0)),
+                      Text('100',
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,

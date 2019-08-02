@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/octicons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:store_administration/edit_staff.dart';
 import 'package:store_administration/set_price_inventory.dart';
 import 'package:store_administration/staff_profile_screen.dart';
 import 'package:store_administration/themes/helpers/theme_colors.dart';
@@ -92,11 +93,29 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
                                           minFontSize: 20.0,
                                           maxFontSize: 128.0,
                                         ),
-                                        AutoSizeText(
-                                          'Stock Manager',
-                                          style: TextStyle(color: Colors.grey),
-                                          minFontSize: 18.0,
-                                          maxFontSize: 128.0,
+                                        Row(
+                                          children: <Widget>[
+                                            Center(
+                                              child: AutoSizeText(
+                                                'Stock Manager',
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                                minFontSize: 18.0,
+                                                maxFontSize: 128.0,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 50.0),
+                                              child: AutoSizeText(
+                                                '\$500.00',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                                minFontSize: 20.0,
+                                                maxFontSize: 128.0,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                         Padding(
                                           padding:
@@ -143,8 +162,8 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
                       caption: 'Edit',
                       color: Colors.grey,
                       icon: Icons.edit,
-                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => SetPriceInventoryScreen())),
+                      onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => EditStaffScreen())),
                     ),
                     IconSlideAction(
                         caption: 'Delete',
