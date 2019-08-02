@@ -23,8 +23,11 @@ class _LoginState extends State<ChangePasswordScreen> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: prefix0.blackColor,
+          title: Text('Setting'),
+        ),
         body: Container(
-          height: double.infinity,
           child: SingleChildScrollView(
             child: Padding(
               padding:

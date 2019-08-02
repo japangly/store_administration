@@ -4,6 +4,7 @@ import 'package:store_administration/inventory_list_screen.dart';
 import 'package:store_administration/service_list_screen.dart';
 import 'package:store_administration/staff_list_screen.dart';
 import 'package:store_administration/themes/helpers/theme_colors.dart';
+import 'package:store_administration/user_profile.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -23,6 +24,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
               )),
+          leading: IconButton(
+            icon: Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return UserProfile();
+                  },
+                ),
+              );
+            },
+          ),
         ),
         body: StaggeredGridView.count(
           crossAxisCount: 2,

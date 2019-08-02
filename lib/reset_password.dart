@@ -28,6 +28,10 @@ class _LoginState extends State<ResetPasswordScreen> {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: prefix0.blackColor,
+          title: Text('Setting'),
+        ),
         body: Container(
           child: SingleChildScrollView(
             child: Padding(
