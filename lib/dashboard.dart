@@ -58,18 +58,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     children: <Widget>[
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
+                          Text('200',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25.0)),
                           Text('Staff',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 30.0)),
-                          Text('100',
+                                  fontSize: 12.0)),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Text('\$50000.00',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 30.0))
+                                  fontSize: 25.0)),
+                          Text('Expense on Salary',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12.0)),
                         ],
                       ),
                       Material(
