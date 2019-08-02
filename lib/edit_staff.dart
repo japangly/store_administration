@@ -12,7 +12,7 @@ class _EditStaffScreenState extends State<EditStaffScreen> {
       appBar: AppBar(
         elevation: 2.0,
         backgroundColor: Color(0xFF0c0c0c),
-        title: Text('Create New Staff',
+        title: Text('Edit Staff',
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w700,
@@ -151,7 +151,7 @@ class _EditStaffScreenState extends State<EditStaffScreen> {
                       color: Colors.black,
                       padding: const EdgeInsets.all(16.0),
                       child: new Text(
-                        ('Create'),
+                        ('Done'),
                       ),
                       onPressed: () {},
                     ),

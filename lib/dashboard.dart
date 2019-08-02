@@ -6,6 +6,7 @@ import 'package:store_administration/service_list_screen.dart';
 import 'package:store_administration/rank_screen.dart';
 import 'package:store_administration/staff_list_screen.dart';
 import 'package:store_administration/themes/helpers/theme_colors.dart';
+import 'package:store_administration/user_profile.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -25,6 +26,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
               )),
+          leading: IconButton(
+            icon: Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return UserProfile();
+                  },
+                ),
+              );
+            },
+          ),
         ),
         body: StaggeredGridView.count(
           crossAxisCount: 2,
@@ -44,6 +61,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text('Staff',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 30.0)),
+                          Text('100',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
@@ -87,6 +109,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
                               fontSize: 20.0)),
+                      Text('200',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20.0)),
                     ]),
               ),
               onTap: () => Navigator.of(context)
@@ -109,6 +136,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           )),
                       Padding(padding: EdgeInsets.only(bottom: 16.0)),
                       Text('Service',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20.0)),
+                      Text('100',
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
