@@ -71,82 +71,6 @@ class _StaffSalaryState extends State<StaffSalary> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AutoSizeText(
-                'Salary Hour',
-                minFontSize: 18.0,
-                maxFontSize: 128.0,
-                style: TextStyle(
-                  color: whiteColor,
-                ),
-              ),
-            ),
-            Card(
-              elevation: 8.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(16.0),
-                ),
-              ),
-              child: FluidSlider(
-                start: Icon(
-                  Icons.remove,
-                  color: whiteColor,
-                ),
-                end: Icon(
-                  Icons.add,
-                  color: whiteColor,
-                ),
-                sliderColor: blackColor,
-                value: _value2,
-                onChanged: (double newValue2) {
-                  setState(() {
-                    _value2 = newValue2;
-                  });
-                },
-                min: 0.0,
-                max: 300.0,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AutoSizeText(
-                'Over-Time Hour',
-                minFontSize: 18.0,
-                maxFontSize: 128.0,
-                style: TextStyle(
-                  color: whiteColor,
-                ),
-              ),
-            ),
-            Card(
-              elevation: 8.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(16.0),
-                ),
-              ),
-              child: FluidSlider(
-                start: Icon(
-                  Icons.remove,
-                  color: whiteColor,
-                ),
-                end: Icon(
-                  Icons.add,
-                  color: whiteColor,
-                ),
-                sliderColor: blackColor,
-                value: _value3,
-                onChanged: (double newValue3) {
-                  setState(() {
-                    _value3 = newValue3;
-                  });
-                },
-                min: 0.0,
-                max: 52.0,
-              ),
-            ),
             Row(
               children: <Widget>[
                 Expanded(
@@ -155,8 +79,8 @@ class _StaffSalaryState extends State<StaffSalary> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: AutoSizeText(
-                          'Salary',
-                          minFontSize: 18.0,
+                          'Salary/1h',
+                          minFontSize: 16.0,
                           maxFontSize: 128.0,
                           style: TextStyle(
                             color: whiteColor,
@@ -200,8 +124,8 @@ class _StaffSalaryState extends State<StaffSalary> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: AutoSizeText(
-                          'Salary Over-Time',
-                          minFontSize: 18.0,
+                          'Salary/1h Over-Time',
+                          minFontSize: 16.0,
                           maxFontSize: 128.0,
                           style: TextStyle(
                             color: whiteColor,
@@ -242,7 +166,83 @@ class _StaffSalaryState extends State<StaffSalary> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 16.0),
+              padding: const EdgeInsets.all(8.0),
+              child: AutoSizeText(
+                'Working Hour',
+                minFontSize: 16.0,
+                maxFontSize: 128.0,
+                style: TextStyle(
+                  color: whiteColor,
+                ),
+              ),
+            ),
+            Card(
+              elevation: 8.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(16.0),
+                ),
+              ),
+              child: FluidSlider(
+                start: Icon(
+                  Icons.remove,
+                  color: whiteColor,
+                ),
+                end: Icon(
+                  Icons.add,
+                  color: whiteColor,
+                ),
+                sliderColor: blackColor,
+                value: _value2,
+                onChanged: (double newValue2) {
+                  setState(() {
+                    _value2 = newValue2;
+                  });
+                },
+                min: 0.0,
+                max: 300.0,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AutoSizeText(
+                'Working Over-Time Hour',
+                minFontSize: 16.0,
+                maxFontSize: 128.0,
+                style: TextStyle(
+                  color: whiteColor,
+                ),
+              ),
+            ),
+            Card(
+              elevation: 8.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(16.0),
+                ),
+              ),
+              child: FluidSlider(
+                start: Icon(
+                  Icons.remove,
+                  color: whiteColor,
+                ),
+                end: Icon(
+                  Icons.add,
+                  color: whiteColor,
+                ),
+                sliderColor: blackColor,
+                value: _value3,
+                onChanged: (double newValue3) {
+                  setState(() {
+                    _value3 = newValue3;
+                  });
+                },
+                min: 0.0,
+                max: 52.0,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(4.0, 24.0, 4.0, 16.0),
               child: RaisedButton(
                 color: blackColor,
                 elevation: 5.0,

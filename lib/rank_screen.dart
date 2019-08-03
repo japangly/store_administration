@@ -7,12 +7,11 @@ class RankingScreen extends StatefulWidget {
   _RankBottomBarState createState() => _RankBottomBarState();
 }
 
-int _count = 1;
-List<Widget> _contatos = List.generate(_count, (int i) => AddRank());
-
 class _RankBottomBarState extends State<RankingScreen> {
+  int _count = 1;
   @override
   Widget build(BuildContext context) {
+    List<Widget> _contatos = List.generate(_count, (int i) => AddRank());
     return Scaffold(
       backgroundColor: Color(0xFF3b3b3b),
       appBar: AppBar(
@@ -112,8 +111,8 @@ class _RankBottomBarState extends State<RankingScreen> {
                               color: confirmColor,
                               iconSize: 25.0,
                               icon: Icon(Icons.add),
-                              onPressed: _addRankCount,
-                            )
+                              onPressed: _addNewRank,
+                            ),
                           ],
                         ),
                       ),
@@ -133,9 +132,9 @@ class _RankBottomBarState extends State<RankingScreen> {
     );
   }
 
-  void _addRankCount() {
-    return setState(() {
-      _count = _count++;
+  void _addNewRank() {
+    setState(() {
+      _count = _count + 1;
     });
   }
 }

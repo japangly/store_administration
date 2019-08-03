@@ -106,12 +106,14 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 50.0),
+                                                  left: 40.0),
                                               child: AutoSizeText(
-                                                '\$500.00',
+                                                '\$500',
                                                 style: TextStyle(
-                                                    color: Colors.white),
-                                                minFontSize: 20.0,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                minFontSize: 24.0,
                                                 maxFontSize: 128.0,
                                               ),
                                             ),
