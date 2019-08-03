@@ -32,6 +32,8 @@ dependencies:
   flutter_datetime_picker: ^1.2.5
   flutter_fluid_slider: ^1.0.1
   flutter_launcher_icons: ^0.7.2+1
+  md2_tab_indicator: ^1.0.2
+  intl: ^0.15.8
 
 
 
