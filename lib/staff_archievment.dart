@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:store_administration/env.dart';
 
 import 'themes/helpers/theme_colors.dart';
 
@@ -88,8 +87,7 @@ class _StaffAchievementState extends State<StaffAchievement> {
               maxFontSize: 128.0,
             ),
           ),
-          Container(
-            height: 128.0,
+          SingleChildScrollView(
             child: Card(
               color: blackColor,
               elevation: 5.0,
@@ -99,112 +97,112 @@ class _StaffAchievementState extends State<StaffAchievement> {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(24.0, 8.0, 8.0, 8.0),
+                padding: const EdgeInsets.fromLTRB(24.0, 12.0, 12.0, 12.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Icon(
-                            Icons.arrow_forward,
-                            color: whiteColor,
-                          ),
-                        ),
-                        Expanded(
-                          child: AutoSizeText(
-                            'Item Added:',
-                            style: TextStyle(
-                              color: whiteColor,
-                            ),
-                            minFontSize: 16.0,
-                            maxFontSize: 128.0,
-                          ),
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: AutoSizeText(
-                              '12',
-                              style: TextStyle(
-                                color: whiteColor,
-                              ),
-                              minFontSize: 16.0,
-                              maxFontSize: 128.0,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: whiteColor,
-                          ),
-                        ),
-                        Expanded(
-                          child: AutoSizeText(
-                            'Item Deducted:',
-                            style: TextStyle(
-                              color: whiteColor,
-                            ),
-                            minFontSize: 16.0,
-                            maxFontSize: 128.0,
-                          ),
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: AutoSizeText(
-                              '9',
-                              style: TextStyle(
-                                color: whiteColor,
-                              ),
-                              minFontSize: 16.0,
-                              maxFontSize: 128.0,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: Icon(
-                            Icons.content_cut,
-                            color: whiteColor,
-                          ),
-                        ),
-                        Expanded(
-                          child: AutoSizeText(
-                            'Services:',
-                            style: TextStyle(
-                              color: whiteColor,
-                            ),
-                            minFontSize: 16.0,
-                            maxFontSize: 128.0,
-                          ),
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: AutoSizeText(
-                              '3',
-                              style: TextStyle(
-                                color: whiteColor,
-                              ),
-                              minFontSize: 16.0,
-                              maxFontSize: 128.0,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    ItemAchivement(),
+                    ItemAchivement(),
+                    ItemAchivement(),
+                    ServiceAchievement(),
+                    ServiceAchievement(),
+                    ServiceAchievement(),
+                    ServiceAchievement(),
                   ],
                 ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ServiceAchievement extends StatelessWidget {
+  const ServiceAchievement({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4.0),
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Icon(
+              Icons.content_cut,
+              color: whiteColor,
+            ),
+          ),
+          Expanded(
+            child: AutoSizeText(
+              'Services Name:',
+              style: TextStyle(
+                color: whiteColor,
+              ),
+              minFontSize: 16.0,
+              maxFontSize: 128.0,
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: AutoSizeText(
+                '3',
+                style: TextStyle(
+                  color: whiteColor,
+                ),
+                minFontSize: 16.0,
+                maxFontSize: 128.0,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ItemAchivement extends StatelessWidget {
+  const ItemAchivement({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4.0),
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Icon(
+              Icons.add_shopping_cart,
+              color: whiteColor,
+            ),
+          ),
+          Expanded(
+            child: AutoSizeText(
+              'Item Name:',
+              style: TextStyle(
+                color: whiteColor,
+              ),
+              minFontSize: 16.0,
+              maxFontSize: 128.0,
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: AutoSizeText(
+                '25',
+                style: TextStyle(
+                  color: whiteColor,
+                ),
+                minFontSize: 16.0,
+                maxFontSize: 128.0,
               ),
             ),
           ),
