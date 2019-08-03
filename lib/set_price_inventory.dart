@@ -1,8 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:store_administration/themes/helpers/theme_colors.dart';
-import 'package:store_administration/themes/helpers/theme_colors.dart'
-    as prefix0;
 
 class SetPriceInventoryScreen extends StatefulWidget {
   @override
@@ -33,7 +31,7 @@ class _SetPriceInventoryScreenState extends State<SetPriceInventoryScreen> {
                 child: AutoSizeText(
                   'Sunsilk',
                   style: TextStyle(
-                    color: prefix0.blackColor,
+                    color: blackColor,
                   ),
                   minFontSize: 30.0,
                   maxFontSize: 128.0,

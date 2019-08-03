@@ -1,14 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/octicons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:store_administration/edit_staff.dart';
-import 'package:store_administration/set_price_inventory.dart';
-import 'package:store_administration/staff_profile_screen.dart';
-import 'package:store_administration/themes/helpers/theme_colors.dart';
-
 import 'dialogs/delete_dialog.dart';
+import 'edit_staff.dart';
 import 'env.dart';
+import 'staff_profile_screen.dart';
+import 'themes/helpers/theme_colors.dart';
 
 class ListStaffScreen extends StatefulWidget {
   @override
