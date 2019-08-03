@@ -1,6 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
+import 'package:recase/recase.dart';
+
+import 'Functions/firestore.dart';
 import 'dialogs/delete_dialog.dart';
 import 'edit_staff.dart';
 import 'env.dart';
@@ -33,157 +38,248 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
             items: <String>['name', 'category', 'created at', 'updated at']
                 .map((String value) {
               return DropdownMenuItem<String>(
-                value: '',
-                child: Text(''),
+                value: ReCase(value).titleCase,
+                child: Text(
+                  value,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               );
             }).toList(),
             onChanged: (selected) {},
           ),
-          Card(
-            child: Container(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => StaffProfile(),
-                    ),
-                  );
-                },
-                child: Slidable(
-                  actionPane: SlidableDrawerActionPane(),
-                  actionExtentRatio: 0.25,
-                  child: Container(
-                    color: blackColor,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      'https://assets.nst.com.my/images/articles/olslisbpbd001a_1553661995.jpg',
-                                      height:
-                                          Environment().getHeight(height: 3.0),
-                                      width: Environment().getWidth(width: 6.0),
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 30.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        AutoSizeText(
-                                          'Irene (Nita)',
-                                          style: TextStyle(
-                                            color: whiteColor,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          minFontSize: 20.0,
-                                          maxFontSize: 128.0,
-                                        ),
-                                        Row(
-                                          children: <Widget>[
-                                            Center(
-                                              child: AutoSizeText(
-                                                'Stock Manager',
-                                                style: TextStyle(
-                                                    color: Colors.grey),
-                                                minFontSize: 18.0,
-                                                maxFontSize: 128.0,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 40.0),
-                                              child: AutoSizeText(
-                                                '\$500',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                minFontSize: 24.0,
-                                                maxFontSize: 128.0,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: AutoSizeText(
-                                            '098 865 551',
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                            minFontSize: 18.0,
-                                            maxFontSize: 128.0,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Divider(
-                            color: whiteColor,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text(
-                                    'Created at: 20/09/2019',
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  secondaryActions: <Widget>[
-                    IconSlideAction(
-                      caption: 'Edit',
-                      color: Colors.grey,
-                      icon: Icons.edit,
-                      onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => EditStaffScreen())),
-                    ),
-                    IconSlideAction(
-                        caption: 'Delete',
-                        color: Colors.red,
-                        icon: Icons.delete,
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (_) {
-                                return DeleteDialog(
-                                  deleteCallBack: () {},
-                                );
-                              });
-                        }),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          new StreamListStaff(),
         ],
       ),
     );
+  }
+}
+
+class StreamListStaff extends StatelessWidget {
+  const StreamListStaff({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: DatabaseFirestore().getStreamCollection(
+          collection: 'employees',
+          orderBy: 'last_name',
+          isDescending: false,
+        ),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            default:
+              return snapshot.data == null
+                  ? Center(
+                      child: Text('No Data',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20.0)),
+                    )
+                  : ListView(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      children: snapshot.data.documents.map(
+                        (DocumentSnapshot document) {
+                          return Card(
+                            child: Container(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          StaffProfile(
+                                        document: document,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Slidable(
+                                  actionPane: SlidableDrawerActionPane(),
+                                  actionExtentRatio: 0.25,
+                                  child: Container(
+                                    color: blackColor,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Row(
+                                                children: <Widget>[
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                    child: Image.network(
+                                                      document.data['image'],
+                                                      height: Environment()
+                                                          .getHeight(
+                                                              height: 3.0),
+                                                      width: Environment()
+                                                          .getWidth(width: 6.0),
+                                                      fit: BoxFit.fitHeight,
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 30.0),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        AutoSizeText(
+                                                          ReCase(document.data[
+                                                                      'last_name'] +
+                                                                  ' ' +
+                                                                  document.data[
+                                                                      'first_name'])
+                                                              .titleCase,
+                                                          style: TextStyle(
+                                                            color: whiteColor,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                          minFontSize: 20.0,
+                                                          maxFontSize: 128.0,
+                                                        ),
+                                                        Row(
+                                                          children: <Widget>[
+                                                            Center(
+                                                              child:
+                                                                  AutoSizeText(
+                                                                document.data[
+                                                                    'role'],
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .grey),
+                                                                minFontSize:
+                                                                    18.0,
+                                                                maxFontSize:
+                                                                    128.0,
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left:
+                                                                          40.0),
+                                                              child:
+                                                                  AutoSizeText(
+                                                                document.data[
+                                                                        'salary_per_hour']
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                                minFontSize:
+                                                                    24.0,
+                                                                maxFontSize:
+                                                                    128.0,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 8.0),
+                                                          child: AutoSizeText(
+                                                            document.data[
+                                                                'phone_number'],
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white),
+                                                            minFontSize: 18.0,
+                                                            maxFontSize: 128.0,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          Divider(
+                                            color: whiteColor,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Row(
+                                                children: <Widget>[
+                                                  Text(
+                                                    'Created at: ${DateFormat("dd/MM/y").format(document.data['created_at'].toDate()).toString()}',
+                                                    style: TextStyle(
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  secondaryActions: <Widget>[
+                                    IconSlideAction(
+                                      caption: 'Edit',
+                                      color: Colors.grey,
+                                      icon: Icons.edit,
+                                      onTap: () => Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  EditStaffScreen())),
+                                    ),
+                                    IconSlideAction(
+                                        caption: 'Delete',
+                                        color: Colors.red,
+                                        icon: Icons.delete,
+                                        onTap: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (_) {
+                                                return DeleteDialog(
+                                                  deleteCallBack: () {},
+                                                );
+                                              });
+                                        }),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    );
+          }
+        });
   }
 }

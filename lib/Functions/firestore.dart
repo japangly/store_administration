@@ -18,24 +18,26 @@ class DatabaseFirestore {
         .snapshots();
   }
 
-  // Future<Stream<QuerySnapshot>> getStreamUserDataField(
-  //     {@required String collection,
-  //     @required String field,
-  //     @required String value}) async {
-  //       sharedPreferences = await
-  //   return Firestore.instance
-  //       .collection(collection)
-  //       .where(field, isEqualTo: value)
-  //       .limit(1)
-  //       .snapshots();
-  // }
-
   Future<QuerySnapshot> getCurrentUserInfo() async {
     try {
       sharedPreferences = await SharedPreferences.getInstance();
       QuerySnapshot querySnapshot = await Firestore.instance
           .collection('employees')
           .where('uid', isEqualTo: sharedPreferences.get('uid'))
+          .limit(1)
+          .getDocuments();
+      return querySnapshot;
+    } catch (error) {
+      print(error);
+      return null;
+    }
+  }
+
+  Future<QuerySnapshot> getUserCreatedProduct({@required String userId}) async {
+    try {
+      QuerySnapshot querySnapshot = await Firestore.instance
+          .collection('employees')
+          .where('uid', isEqualTo: userId)
           .limit(1)
           .getDocuments();
       return querySnapshot;
