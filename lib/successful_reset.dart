@@ -3,6 +3,8 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:store_administration/themes/helpers/theme_colors.dart'
     as prefix0;
+
+import 'log_in_screen.dart';
 import 'themes/helpers/theme_colors.dart';
 
 class SuccessResetScreen extends StatefulWidget {
@@ -13,13 +15,8 @@ class SuccessResetScreen extends StatefulWidget {
 TextEditingController phoneTextController = TextEditingController();
 
 class _LoginState extends State<SuccessResetScreen> {
-  String phoneNumber;
-  bool validatePhoneNumber;
   @override
   Widget build(BuildContext context) {
-    TextEditingController _email = TextEditingController();
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -41,7 +38,7 @@ class _LoginState extends State<SuccessResetScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 40.0, bottom: 30.0),
                   child: Text(
-                    'You can now use your new password to log in to your account!',
+                    'To reset your password follow the link in your mailbox and set a new password!',
                     style: TextStyle(fontSize: 15.0, color: blackColor),
                     textAlign: TextAlign.center,
                   ),
@@ -68,7 +65,12 @@ class _LoginState extends State<SuccessResetScreen> {
                               Icon(Icons.arrow_forward)
                             ],
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()),
+                                (Route<dynamic> route) => false);
+                          },
                         ),
                       ),
                     ],

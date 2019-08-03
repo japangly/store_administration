@@ -1,8 +1,12 @@
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:store_administration/log_in_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'dashboard.dart';
+import 'log_in_screen.dart';
 import 'themes/helpers/buttons.dart';
 import 'themes/helpers/fonts.dart';
 import 'themes/helpers/splash_screen_plugin.dart';
@@ -18,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return SplashScreenStyles(
       seconds: 3,
-      navigateAfterSeconds: LoginScreen(),
+      navigateAfterSeconds: DecisionRoute(),
       imageBackground: AssetImage('assets/images/splash_screen.jpg'),
       title: Column(
         children: <Widget>[
@@ -47,11 +51,64 @@ class _SplashScreenState extends State<SplashScreen> {
 
 class DecisionRoute extends StatefulWidget {
   @override
+  _DecisionRouteState createState() => _DecisionRouteState();
+}
+
+class _DecisionRouteState extends State<DecisionRoute> {
+  bool connectionStatus = false;
+  SharedPreferences sharedPreferences;
+  String uid;
+
+  @override
+  void initState() {
+    super.initState();
+    _getSharePreference();
+  }
+
+  Future<bool> checkInternetConnection() async {
+    ConnectivityResult connectivityResult =
+        await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      connectionStatus = true;
+      return true;
+    } else {
+      connectionStatus = false;
+      return false;
+    }
+  }
+
+  Future _getSharePreference() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    uid = sharedPreferences.getString('uid');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: checkInternetConnection(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        return connectionStatus == false
+            ? NoInternetScreen()
+            : (uid == null) ? LoginScreen() : DashboardScreen();
+      },
+    );
+  }
+}
+
+class NoInternetScreen extends StatefulWidget {
+  @override
+  _NoInternetScreenState createState() => _NoInternetScreenState();
+}
+
+class _NoInternetScreenState extends State<NoInternetScreen> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('store_stockroom'),
+        title: Text('Store Administration'),
+        backgroundColor: Colors.black,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -101,11 +158,5 @@ class DecisionRoute extends StatefulWidget {
         ),
       ),
     );
-  }
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return null;
   }
 }
