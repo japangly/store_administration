@@ -8,6 +8,8 @@ import 'package:store_administration/staff_list_screen.dart';
 import 'package:store_administration/themes/helpers/theme_colors.dart';
 import 'package:store_administration/user_profile.dart';
 
+import 'history_screen.dart';
+
 class DashboardScreen extends StatefulWidget {
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
@@ -197,9 +199,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
             ),
             _buildTile(
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -217,9 +219,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
                               fontSize: 24.0)),
-                    ]),
-              ),
-            ),
+                    ],
+                  ),
+                ), onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => HistoryScreen(),
+                ),
+              );
+            }),
           ],
           staggeredTiles: [
             StaggeredTile.extent(2, 220.0),
