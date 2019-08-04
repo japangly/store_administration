@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:recase/recase.dart';
+import 'package:store_administration/create_staff.dart';
 
 import 'Functions/firestore.dart';
 import 'dialogs/delete_dialog.dart';
@@ -76,6 +77,18 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
           ),
           new StreamListStaff(),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: blackColor,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => CreateStaffScreen(),
+            ),
+          );
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
