@@ -209,7 +209,7 @@ class _StaffProfileState extends State<StaffProfile> {
                                     left: 4.0,
                                   ),
                                   child: AutoSizeText(
-                                    '(Irene)',
+                                    widget.document.data['nickname'] == null ? '' : '(${widget.document.data['nickname']})',
                                     minFontSize: 18.0,
                                     maxFontSize: 128.0,
                                     style: TextStyle(color: whiteColor),
@@ -218,7 +218,7 @@ class _StaffProfileState extends State<StaffProfile> {
                               ],
                             ),
                             AutoSizeText(
-                              'Kort tver ey',
+                              '',
                               minFontSize: 16.0,
                               maxFontSize: 128.0,
                               style: TextStyle(

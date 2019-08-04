@@ -22,6 +22,7 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   SharedPreferences sharedPreferences;
   String uid;
+
   bool _loadingState = false;
 
   @override
@@ -39,8 +40,8 @@ class _UserProfileState extends State<UserProfile> {
     setState(() {
       _loadingState = true;
     });
-    sharedPreferences.clear();
     await Authentication().signOut().whenComplete(() {
+      sharedPreferences.clear();
       setState(() {
         _loadingState = false;
       });

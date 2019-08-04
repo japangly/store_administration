@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>To record video you to allow this permission</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>You need to allow permission Photos to be able access to device Photos</string>
+	<key>NSCameraUsageDescription</key>
+	<string>You need to allow permission Camera to be able use Camera</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

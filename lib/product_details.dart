@@ -154,7 +154,7 @@ class ProductDetails extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Text(
-                            'Created at: ${DateFormat("dd/MM/y HH:mm").format(document.data['created_at'].toDate()).toString()}',
+                            'Created at: ${DateFormat("dd/MM/y").format(document.data['created_at'].toDate()).toString()}',
                             style: TextStyle(color: Colors.blue[500]),
                           ),
                         ],
@@ -162,7 +162,7 @@ class ProductDetails extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Text(
-                            'Updated at: ${DateFormat("dd/MM/y HH:mm").format(document.data['updated_at'].toDate()).toString()}',
+                            'Updated at: ${DateFormat("dd/MM/y").format(document.data['updated_at'].toDate()).toString()}',
                             style: TextStyle(color: Colors.green[500]),
                           ),
                         ],

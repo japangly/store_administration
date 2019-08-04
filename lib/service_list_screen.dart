@@ -1,19 +1,19 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:store_administration/edit_service.dart';
-import 'package:store_administration/themes/helpers/theme_colors.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'create_service.dart';
 import 'dialogs/delete_dialog.dart';
+import 'edit_service.dart';
+import 'themes/helpers/theme_colors.dart';
 
 class ListServiceScreen extends StatefulWidget {
   @override
   _ListServiceScreenState createState() => _ListServiceScreenState();
 }
 
-String _selectedNameStaff = 'Ok';
-List<String> _listNameStaff = ['create At', 'Desc', 'Upper'];
+String _selectedSortBy = 'name';
+List<String> _listNameOfField = ['created_At', 'name', 'sell_price'];
 
 class _ListServiceScreenState extends State<ListServiceScreen> {
   @override
@@ -35,7 +35,6 @@ class _ListServiceScreenState extends State<ListServiceScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Flexible(
-                flex: 2,
                 child: Container(),
               ),
               Flexible(
@@ -45,11 +44,11 @@ class _ListServiceScreenState extends State<ListServiceScreen> {
                     padding: const EdgeInsets.fromLTRB(12.0, 4.0, 12.0, 4.0),
                     child: DropdownButton<String>(
                       hint: AutoSizeText(
-                        _selectedNameStaff,
+                        _selectedSortBy,
                         minFontSize: 12.0,
                         style: TextStyle(color: whiteColor),
                       ),
-                      items: _listNameStaff.map((String value) {
+                      items: _listNameOfField.map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: AutoSizeText(
@@ -60,7 +59,7 @@ class _ListServiceScreenState extends State<ListServiceScreen> {
                       }).toList(),
                       onChanged: (selected) {
                         setState(() {
-                          _selectedNameStaff = selected;
+                          _selectedSortBy = selected;
                         });
                       },
                     ),

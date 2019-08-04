@@ -3,6 +3,8 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:store_administration/themes/helpers/theme_colors.dart'
     as prefix0;
+
+import 'log_in_screen.dart';
 import 'themes/helpers/theme_colors.dart';
 
 class SuccessChangedScreen extends StatefulWidget {
@@ -69,7 +71,16 @@ class _LoginState extends State<SuccessChangedScreen> {
                               Icon(Icons.arrow_forward)
                             ],
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return LoginScreen();
+                                },
+                              ),
+                              (Route<dynamic> route) => false,
+                            );
+                          },
                         ),
                       ),
                     ],
