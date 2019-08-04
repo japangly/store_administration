@@ -17,6 +17,9 @@ class InventoryScreen extends StatefulWidget {
   _InventoryScreenState createState() => _InventoryScreenState();
 }
 
+String _selectedNameStaff = 'Ok';
+List<String> _listNameStaff = ['create At', 'Desc', 'Upper'];
+
 class _InventoryScreenState extends State<InventoryScreen> {
   @override
   Widget build(BuildContext context) {
@@ -33,16 +36,43 @@ class _InventoryScreenState extends State<InventoryScreen> {
       ),
       body: ListView(
         children: <Widget>[
-          DropdownButton<String>(
-            hint: Text(''),
-            items: <String>['name', 'category', 'created at', 'updated at']
-                .map((String value) {
-              return DropdownMenuItem<String>(
-                value: '',
-                child: Text(''),
-              );
-            }).toList(),
-            onChanged: (selected) {},
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Flexible(
+                flex: 2,
+                child: Container(),
+              ),
+              Flexible(
+                child: Card(
+                  color: blackColor,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(12.0, 4.0, 12.0, 4.0),
+                    child: DropdownButton<String>(
+                      hint: AutoSizeText(
+                        _selectedNameStaff,
+                        minFontSize: 12.0,
+                        style: TextStyle(color: whiteColor),
+                      ),
+                      items: _listNameStaff.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: AutoSizeText(
+                            value,
+                            minFontSize: 12.0,
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (selected) {
+                        setState(() {
+                          _selectedNameStaff = selected;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           StreamBuilder<QuerySnapshot>(
               stream: DatabaseFirestore().getStreamCollection(

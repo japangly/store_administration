@@ -17,6 +17,9 @@ class ListStaffScreen extends StatefulWidget {
   _ListStaffScreenState createState() => _ListStaffScreenState();
 }
 
+String _selectedNameStaff = 'Ok';
+List<String> _listNameStaff = ['create At', 'Desc', 'Upper'];
+
 class _ListStaffScreenState extends State<ListStaffScreen> {
   @override
   Widget build(BuildContext context) {
@@ -33,22 +36,43 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
       ),
       body: ListView(
         children: <Widget>[
-          DropdownButton<String>(
-            hint: Text(''),
-            items: <String>['name', 'category', 'created at', 'updated at']
-                .map((String value) {
-              return DropdownMenuItem<String>(
-                value: ReCase(value).titleCase,
-                child: Text(
-                  value,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Flexible(
+                flex: 2,
+                child: Container(),
+              ),
+              Flexible(
+                child: Card(
+                  color: blackColor,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(12.0, 4.0, 12.0, 4.0),
+                    child: DropdownButton<String>(
+                      hint: AutoSizeText(
+                        _selectedNameStaff,
+                        minFontSize: 12.0,
+                        style: TextStyle(color: whiteColor),
+                      ),
+                      items: _listNameStaff.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: AutoSizeText(
+                            value,
+                            minFontSize: 12.0,
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (selected) {
+                        setState(() {
+                          _selectedNameStaff = selected;
+                        });
+                      },
+                    ),
                   ),
                 ),
-              );
-            }).toList(),
-            onChanged: (selected) {},
+              ),
+            ],
           ),
           new StreamListStaff(),
         ],
@@ -94,6 +118,9 @@ class StreamListStaff extends StatelessWidget {
                       children: snapshot.data.documents.map(
                         (DocumentSnapshot document) {
                           return Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8.0))),
                             child: Container(
                               child: GestureDetector(
                                 onTap: () {
@@ -132,7 +159,7 @@ class StreamListStaff extends StatelessWidget {
                                                       document.data['image'],
                                                       height: Environment()
                                                           .getHeight(
-                                                              height: 3.0),
+                                                              height: 3.5),
                                                       width: Environment()
                                                           .getWidth(width: 6.0),
                                                       fit: BoxFit.fitHeight,
@@ -141,7 +168,7 @@ class StreamListStaff extends StatelessWidget {
                                                   Padding(
                                                     padding:
                                                         const EdgeInsets.only(
-                                                            left: 30.0),
+                                                            left: 32.0),
                                                     child: Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -162,46 +189,20 @@ class StreamListStaff extends StatelessWidget {
                                                           minFontSize: 20.0,
                                                           maxFontSize: 128.0,
                                                         ),
-                                                        Row(
-                                                          children: <Widget>[
-                                                            Center(
-                                                              child:
-                                                                  AutoSizeText(
-                                                                document.data[
-                                                                    'role'],
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .grey),
-                                                                minFontSize:
-                                                                    18.0,
-                                                                maxFontSize:
-                                                                    128.0,
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      left:
-                                                                          40.0),
-                                                              child:
-                                                                  AutoSizeText(
-                                                                document.data[
-                                                                        'salary_per_hour']
-                                                                    .toString(),
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                                minFontSize:
-                                                                    24.0,
-                                                                maxFontSize:
-                                                                    128.0,
-                                                              ),
-                                                            ),
-                                                          ],
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 4.0),
+                                                          child: AutoSizeText(
+                                                            document
+                                                                .data['role'],
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey),
+                                                            minFontSize: 18.0,
+                                                            maxFontSize: 128.0,
+                                                          ),
                                                         ),
                                                         Padding(
                                                           padding:
@@ -222,6 +223,21 @@ class StreamListStaff extends StatelessWidget {
                                                     ),
                                                   ),
                                                 ],
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8.0),
+                                                child: AutoSizeText(
+                                                  document
+                                                      .data['salary_per_hour']
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  minFontSize: 24.0,
+                                                  maxFontSize: 128.0,
+                                                ),
                                               ),
                                             ],
                                           ),

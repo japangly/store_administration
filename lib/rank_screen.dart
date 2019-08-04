@@ -4,14 +4,12 @@ import 'package:store_administration/themes/helpers/theme_colors.dart';
 
 class RankingScreen extends StatefulWidget {
   @override
-  _RankBottomBarState createState() => _RankBottomBarState();
+  _RankingScreenState createState() => _RankingScreenState();
 }
 
-class _RankBottomBarState extends State<RankingScreen> {
-  int _count = 1;
+class _RankingScreenState extends State<RankingScreen> {
   @override
   Widget build(BuildContext context) {
-    List<Widget> _contatos = List.generate(_count, (int i) => AddRank());
     return Scaffold(
       backgroundColor: Color(0xFF3b3b3b),
       appBar: AppBar(
@@ -19,137 +17,70 @@ class _RankBottomBarState extends State<RankingScreen> {
         centerTitle: true,
         title: AutoSizeText('Ranking'),
       ),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Center(
-                        child: AutoSizeText(
-                          'Experience',
-                          style: TextStyle(
-                            color: whiteColor,
-                          ),
-                          minFontSize: 16.0,
-                          maxFontSize: 128.0,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: AutoSizeText(
-                          'Salary',
-                          style: TextStyle(
-                            color: whiteColor,
-                          ),
-                          minFontSize: 16.0,
-                          maxFontSize: 128.0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Divider(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            AutoSizeText(
-                              '0',
-                              style: TextStyle(
-                                color: whiteColor,
-                              ),
-                              minFontSize: 16.0,
-                              maxFontSize: 128.0,
-                            ),
-                            AutoSizeText(
-                              ' - ',
-                              style: TextStyle(
-                                color: whiteColor,
-                              ),
-                              minFontSize: 16.0,
-                              maxFontSize: 128.0,
-                            ),
-                            Card(
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    16.0, 8.0, 16.0, 8.0),
-                                child: AutoSizeText(
-                                  '50',
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Card(
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    32.0, 8.0, 32.0, 8.0),
-                                child: AutoSizeText(
-                                  '7\$/h',
-                                ),
-                              ),
-                            ),
-                            IconButton(
-                              color: confirmColor,
-                              iconSize: 25.0,
-                              icon: Icon(Icons.add),
-                              onPressed: _addNewRank,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: ListView(
-                  children: _contatos,
-                ),
-              ),
-            ],
-          );
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
         },
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Center(
+                      child: AutoSizeText(
+                        'Experience',
+                        style: TextStyle(
+                          color: whiteColor,
+                        ),
+                        minFontSize: 16.0,
+                        maxFontSize: 128.0,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: AutoSizeText(
+                        'Salary',
+                        style: TextStyle(
+                          color: whiteColor,
+                        ),
+                        minFontSize: 16.0,
+                        maxFontSize: 128.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(),
+            Expanded(
+              child: ListView(
+                children: <Widget>[
+                  RankingCard(),
+                  RankingCard(),
+                  RankingCard(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
-
-  void _addNewRank() {
-    setState(() {
-      _count = _count + 1;
-    });
-  }
 }
 
-class AddRank extends StatefulWidget {
-  const AddRank({
+class RankingCard extends StatefulWidget {
+  const RankingCard({
     Key key,
   }) : super(key: key);
 
   @override
-  _AddRankState createState() => _AddRankState();
+  _RankingCardState createState() => _RankingCardState();
 }
 
-class _AddRankState extends State<AddRank> {
-  int _count = 1;
+class _RankingCardState extends State<RankingCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -161,26 +92,39 @@ class _AddRankState extends State<AddRank> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  AutoSizeText(
-                    '0',
-                    style: TextStyle(
-                      color: whiteColor,
+                  Flexible(
+                    child: AutoSizeText(
+                      '0',
+                      style: TextStyle(
+                        color: whiteColor,
+                      ),
+                      minFontSize: 16.0,
+                      maxFontSize: 128.0,
                     ),
-                    minFontSize: 16.0,
-                    maxFontSize: 128.0,
                   ),
-                  AutoSizeText(
-                    ' - ',
-                    style: TextStyle(
-                      color: whiteColor,
+                  Flexible(
+                    child: AutoSizeText(
+                      ' - ',
+                      style: TextStyle(
+                        color: whiteColor,
+                      ),
+                      minFontSize: 16.0,
+                      maxFontSize: 128.0,
                     ),
-                    minFontSize: 16.0,
-                    maxFontSize: 128.0,
                   ),
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-                      child: AutoSizeText('50'),
+                  Flexible(
+                    child: Card(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(12.0, 4.0, 12.0, 8.0),
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: '50',
+                            border: UnderlineInputBorder(),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -192,17 +136,28 @@ class _AddRankState extends State<AddRank> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(32.0, 8.0, 32.0, 8.0),
-                      child: Text('7\$/h'),
+                  Flexible(
+                    child: Container(),
+                  ),
+                  Flexible(
+                    flex: 2,
+                    child: Card(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(12.0, 4.0, 12.0, 8.0),
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: '7\$/h',
+                            border: UnderlineInputBorder(),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  IconButton(
-                    color: removeColor,
-                    icon: Icon(Icons.clear),
-                    onPressed: _removeRankCount,
-                  )
+                  Flexible(
+                    child: Container(),
+                  ),
                 ],
               ),
             ),
@@ -210,11 +165,5 @@ class _AddRankState extends State<AddRank> {
         ],
       ),
     );
-  }
-
-  void _removeRankCount() {
-    return setState(() {
-      _count = _count--;
-    });
   }
 }
