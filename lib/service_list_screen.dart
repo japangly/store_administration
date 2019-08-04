@@ -1,9 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:recase/recase.dart';
 
+import 'Functions/firestore.dart';
 import 'create_service.dart';
-import 'dialogs/delete_dialog.dart';
 import 'edit_service.dart';
 import 'themes/helpers/theme_colors.dart';
 
@@ -13,7 +15,7 @@ class ListServiceScreen extends StatefulWidget {
 }
 
 String _selectedSortBy = 'name';
-List<String> _listNameOfField = ['created_At', 'name', 'sell_price'];
+List<String> _listNameOfField = ['created_at', 'name', 'price'];
 
 class _ListServiceScreenState extends State<ListServiceScreen> {
   @override
@@ -68,244 +70,7 @@ class _ListServiceScreenState extends State<ListServiceScreen> {
               ),
             ],
           ),
-          Card(
-            child: Container(
-              child: Slidable(
-                actionPane: SlidableDrawerActionPane(),
-                actionExtentRatio: 0.25,
-                child: Container(
-                  color: blackColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                AutoSizeText(
-                                  'Nail Cut',
-                                  style: TextStyle(
-                                    color: whiteColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  minFontSize: 20.0,
-                                  maxFontSize: 128.0,
-                                ),
-                                AutoSizeText(
-                                  '\$10.00',
-                                  style: TextStyle(
-                                    color: whiteColor,
-                                  ),
-                                  minFontSize: 30.0,
-                                  maxFontSize: 128.0,
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.access_time,
-                                        color: Colors.grey,
-                                      ),
-                                      AutoSizeText(
-                                        '20min',
-                                        style: TextStyle(color: Colors.grey),
-                                        minFontSize: 18.0,
-                                        maxFontSize: 128.0,
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.add,
-                                        color: Colors.greenAccent,
-                                      ),
-                                      AutoSizeText(
-                                        '5%',
-                                        style: TextStyle(
-                                            color: Colors.greenAccent),
-                                        minFontSize: 20.0,
-                                        maxFontSize: 128.0,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  AutoSizeText(
-                                    '20',
-                                    style: TextStyle(color: Colors.amber),
-                                    minFontSize: 18.0,
-                                    maxFontSize: 128.0,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                secondaryActions: <Widget>[
-                  IconSlideAction(
-                    caption: 'Edit',
-                    color: Colors.grey,
-                    icon: Icons.edit,
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => EditServiceScreen())),
-                  ),
-                  IconSlideAction(
-                    caption: 'Delete',
-                    color: Colors.red,
-                    icon: Icons.delete,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Card(
-            child: Container(
-              child: Slidable(
-                actionPane: SlidableDrawerActionPane(),
-                actionExtentRatio: 0.25,
-                child: Container(
-                  color: blackColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                AutoSizeText(
-                                  'Nail Cut',
-                                  style: TextStyle(
-                                    color: whiteColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  minFontSize: 20.0,
-                                  maxFontSize: 128.0,
-                                ),
-                                AutoSizeText(
-                                  '\$10.00',
-                                  style: TextStyle(
-                                    color: whiteColor,
-                                  ),
-                                  minFontSize: 30.0,
-                                  maxFontSize: 128.0,
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.access_time,
-                                        color: Colors.grey,
-                                      ),
-                                      AutoSizeText(
-                                        '20min',
-                                        style: TextStyle(color: Colors.grey),
-                                        minFontSize: 18.0,
-                                        maxFontSize: 128.0,
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.add,
-                                        color: Colors.greenAccent,
-                                      ),
-                                      AutoSizeText(
-                                        '5%',
-                                        style: TextStyle(
-                                            color: Colors.greenAccent),
-                                        minFontSize: 20.0,
-                                        maxFontSize: 128.0,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  AutoSizeText(
-                                    '20',
-                                    style: TextStyle(color: Colors.amber),
-                                    minFontSize: 18.0,
-                                    maxFontSize: 128.0,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                secondaryActions: <Widget>[
-                  IconSlideAction(
-                    caption: 'Edit',
-                    color: Colors.grey,
-                    icon: Icons.edit,
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => EditServiceScreen())),
-                  ),
-                  IconSlideAction(
-                      caption: 'Delete',
-                      color: Colors.red,
-                      icon: Icons.delete,
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (_) {
-                              return DeleteDialog(
-                                deleteCallBack: () {},
-                              );
-                            });
-                      }),
-                ],
-              ),
-            ),
-          ),
+          new StreamServices(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -327,5 +92,177 @@ class _ListServiceScreenState extends State<ListServiceScreen> {
         },
       ),
     );
+  }
+}
+
+class StreamServices extends StatelessWidget {
+  const StreamServices({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: DatabaseFirestore().getStreamCollection(
+            collection: 'services',
+            orderBy: _selectedSortBy,
+            isDescending: false),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            default:
+              return snapshot.data == null
+                  ? Center(
+                      child: Text('No Data',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20.0)),
+                    )
+                  : ListView(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      children: snapshot.data.documents.map(
+                        (DocumentSnapshot document) {
+                          return Card(
+                            child: Container(
+                              child: Slidable(
+                                actionPane: SlidableDrawerActionPane(),
+                                actionExtentRatio: 0.25,
+                                child: Container(
+                                  color: blackColor,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                AutoSizeText(
+                                                  ReCase(document.data['name'])
+                                                      .titleCase,
+                                                  style: TextStyle(
+                                                    color: whiteColor,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  minFontSize: 20.0,
+                                                  maxFontSize: 128.0,
+                                                ),
+                                                AutoSizeText(
+                                                  '\$${document.data['price']}.00',
+                                                  style: TextStyle(
+                                                    color: whiteColor,
+                                                  ),
+                                                  minFontSize: 30.0,
+                                                  maxFontSize: 128.0,
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Icon(
+                                                        Icons.access_time,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      AutoSizeText(
+                                                        '${document.data['estimated_time']}min',
+                                                        style: TextStyle(
+                                                            color: Colors.grey),
+                                                        minFontSize: 18.0,
+                                                        maxFontSize: 128.0,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Icon(
+                                                        Icons.add,
+                                                        color:
+                                                            Colors.greenAccent,
+                                                      ),
+                                                      AutoSizeText(
+                                                        '${document.data['bonus']}%',
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .greenAccent),
+                                                        minFontSize: 20.0,
+                                                        maxFontSize: 128.0,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.star,
+                                                    color: Colors.amber,
+                                                  ),
+                                                  AutoSizeText(
+                                                    '${document.data['point']}',
+                                                    style: TextStyle(
+                                                        color: Colors.amber),
+                                                    minFontSize: 18.0,
+                                                    maxFontSize: 128.0,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                secondaryActions: <Widget>[
+                                  IconSlideAction(
+                                    caption: 'Edit',
+                                    color: Colors.grey,
+                                    icon: Icons.edit,
+                                    onTap: () => Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                EditServiceScreen())),
+                                  ),
+                                  IconSlideAction(
+                                    caption: 'Delete',
+                                    color: Colors.red,
+                                    icon: Icons.delete,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    );
+          }
+        });
   }
 }
