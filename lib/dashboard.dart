@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
+import 'Functions/firestore.dart';
 import 'history_screen.dart';
 import 'inventory_list_screen.dart';
 import 'rank_screen.dart';
@@ -18,6 +19,22 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   bool _isInventoryLoading = false;
+
+  Widget _buildTile(Widget child, {Function() onTap}) {
+    return Material(
+        elevation: 14.0,
+        color: Color(0xFF0c0c0c),
+        borderRadius: BorderRadius.circular(12.0),
+        child: InkWell(
+            // Do onTap() if it isn't null, otherwise do print()
+            onTap: onTap != null
+                ? () => onTap()
+                : () {
+                    print('Not set yet');
+                  },
+            child: child));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,125 +71,157 @@ class _DashboardScreenState extends State<DashboardScreen> {
           padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
           children: <Widget>[
             _buildTile(
-              StreamBuilder<QuerySnapshot>(
-                  stream: null,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError)
-                      return Center(
-                          child: Text('Error: ${snapshot.error}',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20.0)));
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      default:
-                        return snapshot.data == null
-                            ? Padding(
-                                padding: const EdgeInsets.all(24.0),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Center(
-                                            child: Text('No Data',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 20.0)),
-                                          ),
-                                        ],
-                                      ),
-                                      Material(
-                                        color: Colors.red,
-                                        borderRadius:
-                                            BorderRadius.circular(24.0),
-                                        child: Center(
-                                          child: Padding(
-                                            padding: EdgeInsets.all(16.0),
-                                            child: Icon(Icons.people,
-                                                color: Colors.white,
-                                                size: 30.0),
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                              )
-                            : Padding(
-                                padding: const EdgeInsets.all(24.0),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text('200',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 25.0)),
-                                          Text('Staff',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 12.0)),
-                                          SizedBox(
-                                            height: 20.0,
-                                          ),
-                                          Text('\$50000.00',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 25.0)),
-                                          Text('Expense on Salary',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 12.0)),
-                                        ],
-                                      ),
-                                      Material(
-                                        color: Colors.red,
-                                        borderRadius:
-                                            BorderRadius.circular(24.0),
-                                        child: Center(
-                                          child: Padding(
-                                            padding: EdgeInsets.all(16.0),
-                                            child: Icon(Icons.people,
-                                                color: Colors.white,
-                                                size: 30.0),
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                              );
-                    }
-                  }),
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          StreamBuilder<QuerySnapshot>(
+                              stream: DatabaseFirestore().getStreamCollection(
+                                collection: 'employees',
+                                orderBy: 'first_name',
+                                isDescending: false,
+                              ),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (snapshot.hasError) {
+                                  return Center(
+                                    child: Text('Error: ${snapshot.error}',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 20.0)),
+                                  );
+                                }
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting:
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  default:
+                                    return snapshot.data == null
+                                        ? Column(
+                                            children: <Widget>[
+                                              Text('0',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 25.0)),
+                                              Text('Staff',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 12.0)),
+                                            ],
+                                          )
+                                        : Column(
+                                            children: <Widget>[
+                                              Text(
+                                                  '${snapshot.data.documents.length}',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 25.0)),
+                                              Text('Staff',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 12.0)),
+                                            ],
+                                          );
+                                }
+                              }),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          StreamBuilder<QuerySnapshot>(
+                              stream: null,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (snapshot.hasError) {
+                                  return Center(
+                                    child: Text('Error: ${snapshot.error}',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 20.0)),
+                                  );
+                                }
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting:
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  default:
+                                    return snapshot.data == null
+                                        ? Column(
+                                            children: <Widget>[
+                                              Text('\$0',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 25.0)),
+                                              Text('Expense on Salary',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 12.0)),
+                                            ],
+                                          )
+                                        : Column(
+                                            children: <Widget>[
+                                              Text('\$500',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 25.0)),
+                                              Text('Expense on Salary',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize: 12.0)),
+                                            ],
+                                          );
+                                }
+                              }),
+                        ],
+                      ),
+                      Material(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(24.0),
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Icon(Icons.people,
+                                color: Colors.white, size: 30.0),
+                          ),
+                        ),
+                      ),
+                    ]),
+              ),
               onTap: () => Navigator.of(context)
                   .push(MaterialPageRoute(builder: (_) => ListStaffScreen())),
             ),
             _buildTile(
               ModalProgressHUD(
                 child: StreamBuilder<QuerySnapshot>(
-                    stream: null,
+                    stream: DatabaseFirestore().getStreamCollection(
+                        collection: 'products',
+                        orderBy: 'name',
+                        isDescending: false),
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasError) {
@@ -222,38 +271,35 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               fontSize: 20.0)),
                                     ],
                                   )
-                                : Padding(
-                                    padding: const EdgeInsets.all(24.0),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Material(
-                                              color: Colors.blue,
-                                              shape: CircleBorder(),
-                                              child: Padding(
-                                                padding: EdgeInsets.all(16.0),
-                                                child: Icon(Icons.store,
-                                                    color: Colors.white,
-                                                    size: 30.0),
-                                              )),
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                  bottom: 16.0)),
-                                          Text('Inventory',
-                                              style: TextStyle(
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                        Material(
+                                            color: Colors.blue,
+                                            shape: CircleBorder(),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(16.0),
+                                              child: Icon(Icons.store,
                                                   color: Colors.white,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 20.0)),
-                                          Text('200',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 20.0)),
-                                        ]),
-                                  ),
+                                                  size: 30.0),
+                                            )),
+                                        Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 16.0)),
+                                        Text('Inventory',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 20.0)),
+                                        Text(
+                                            '${snapshot.data.documents.length}',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 20.0)),
+                                      ]),
                           );
                       }
                     }),
@@ -265,7 +311,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             _buildTile(
               StreamBuilder<QuerySnapshot>(
-                  stream: null,
+                  stream: DatabaseFirestore().getStreamCollection(
+                      collection: 'services',
+                      orderBy: 'name',
+                      isDescending: false),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {
@@ -315,38 +364,35 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               fontSize: 20.0)),
                                     ],
                                   )
-                                : Padding(
-                                    padding: const EdgeInsets.all(24.0),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Material(
-                                              color: Colors.pinkAccent,
-                                              shape: CircleBorder(),
-                                              child: Padding(
-                                                padding: EdgeInsets.all(16.0),
-                                                child: Icon(Icons.content_cut,
-                                                    color: Colors.white,
-                                                    size: 30.0),
-                                              )),
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                  bottom: 16.0)),
-                                          Text('Service',
-                                              style: TextStyle(
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                        Material(
+                                            color: Colors.pinkAccent,
+                                            shape: CircleBorder(),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(16.0),
+                                              child: Icon(Icons.content_cut,
                                                   color: Colors.white,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 20.0)),
-                                          Text('100',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 20.0)),
-                                        ]),
-                                  ));
+                                                  size: 30.0),
+                                            )),
+                                        Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 16.0)),
+                                        Text('Service',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 20.0)),
+                                        Text(
+                                            '${snapshot.data.documents.length}',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 20.0)),
+                                      ]));
                     }
                   }),
               onTap: () => Navigator.of(context)
@@ -429,20 +475,5 @@ class _DashboardScreenState extends State<DashboardScreen> {
             StaggeredTile.extent(1, 220.0),
           ],
         ));
-  }
-
-  Widget _buildTile(Widget child, {Function() onTap}) {
-    return Material(
-        elevation: 14.0,
-        color: Color(0xFF0c0c0c),
-        borderRadius: BorderRadius.circular(12.0),
-        child: InkWell(
-            // Do onTap() if it isn't null, otherwise do print()
-            onTap: onTap != null
-                ? () => onTap()
-                : () {
-                    print('Not set yet');
-                  },
-            child: child));
   }
 }

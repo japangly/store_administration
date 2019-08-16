@@ -4,21 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/octicons.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:recase/recase.dart';
-import 'package:store_administration/Functions/firestore.dart';
-import 'package:store_administration/product_details.dart';
-import 'package:store_administration/set_price_inventory.dart';
-import 'package:store_administration/themes/helpers/theme_colors.dart';
 
+import 'Functions/firestore.dart';
 import 'dialogs/delete_dialog.dart';
 import 'env.dart';
+import 'product_details.dart';
+import 'set_price_inventory.dart';
+import 'themes/helpers/theme_colors.dart';
 
 class InventoryScreen extends StatefulWidget {
   @override
   _InventoryScreenState createState() => _InventoryScreenState();
 }
 
-String _selectedNameStaff = 'Ok';
-List<String> _listNameStaff = ['create At', 'Desc', 'Upper'];
+String _selectedSortBy = 'name';
+List<String> _listNameStaff = ['created_at', 'name', 'sell_price'];
 
 class _InventoryScreenState extends State<InventoryScreen> {
   @override
@@ -50,7 +50,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     padding: const EdgeInsets.fromLTRB(12.0, 4.0, 12.0, 4.0),
                     child: DropdownButton<String>(
                       hint: AutoSizeText(
-                        _selectedNameStaff,
+                        _selectedSortBy,
                         minFontSize: 12.0,
                         style: TextStyle(color: whiteColor),
                       ),
@@ -65,7 +65,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                       }).toList(),
                       onChanged: (selected) {
                         setState(() {
-                          _selectedNameStaff = selected;
+                          _selectedSortBy = selected;
                         });
                       },
                     ),
@@ -76,13 +76,14 @@ class _InventoryScreenState extends State<InventoryScreen> {
           ),
           StreamBuilder<QuerySnapshot>(
               stream: DatabaseFirestore().getStreamCollection(
-                  collection: 'products', orderBy: 'name', isDescending: false),
+                  collection: 'products',
+                  orderBy: _selectedSortBy,
+                  isDescending: false),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
-                print('snapshot data ${snapshot.data.documents.length}');
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
                     return Center(
@@ -113,6 +114,7 @@ class ListProducts extends StatelessWidget {
     Key key,
     @required this.snapshot,
   }) : super(key: key);
+
   final AsyncSnapshot<QuerySnapshot> snapshot;
 
   @override

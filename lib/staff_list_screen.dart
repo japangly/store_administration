@@ -1,12 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:recase/recase.dart';
-import 'package:store_administration/create_staff.dart';
 
 import 'Functions/firestore.dart';
+import 'create_staff.dart';
+import 'dialogs/camera_dialog.dart';
 import 'dialogs/delete_dialog.dart';
 import 'edit_staff.dart';
 import 'env.dart';
@@ -18,8 +23,8 @@ class ListStaffScreen extends StatefulWidget {
   _ListStaffScreenState createState() => _ListStaffScreenState();
 }
 
-String _selectedNameStaff = 'Ok';
-List<String> _listNameStaff = ['create At', 'Desc', 'Upper'];
+String _selectedNameStaff = 'first_name';
+List<String> _listNameStaff = ['first_name', 'created_at', 'salary_per_hour'];
 
 class _ListStaffScreenState extends State<ListStaffScreen> {
   @override
@@ -27,7 +32,7 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
     return Scaffold(
       backgroundColor: Color(0xFF3b3b3b),
       appBar: AppBar(
-        elevation: 2.0,
+        elevation: 8.0,
         backgroundColor: Color(0xFF0c0c0c),
         title: Text('Staff List',
             style: TextStyle(
@@ -41,14 +46,13 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Flexible(
-                flex: 2,
                 child: Container(),
               ),
               Flexible(
                 child: Card(
                   color: blackColor,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(12.0, 4.0, 12.0, 4.0),
+                    padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
                     child: DropdownButton<String>(
                       hint: AutoSizeText(
                         _selectedNameStaff,
@@ -79,16 +83,69 @@ class _ListStaffScreenState extends State<ListStaffScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: blackColor,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => CreateStaffScreen(),
-            ),
-          );
+        backgroundColor: whiteColor,
+        child: Icon(
+          Icons.add,
+          color: blackColor,
+          size: 40.0,
+        ),
+        onPressed: () async {
+          try {
+            await ImagePicker.pickImage(source: ImageSource.camera).then(
+              (imageFile) async {
+                await ImageCropper.cropImage(
+                  sourcePath: imageFile.path,
+                  toolbarTitle: 'Edit Photo',
+                  toolbarColor: Colors.blue,
+                  toolbarWidgetColor: Colors.white,
+                  ratioX: 1.0,
+                  ratioY: 1.0,
+                  maxWidth: 512,
+                  maxHeight: 512,
+                ).then((imageFile) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return CreateStaffScreen(
+                          imageFile: imageFile,
+                        );
+                      },
+                    ),
+                  );
+                });
+              },
+            );
+          } on PlatformException catch (e) {
+            if (e.code == BarcodeScanner.CameraAccessDenied) {
+              showDialog(
+                  context: context,
+                  builder: (_) {
+                    return CameraDialog();
+                  });
+            } else {
+              showDialog(
+                  context: context,
+                  builder: (_) {
+                    return CameraDialog();
+                  });
+            }
+          } on FormatException {
+            // FormatException to be handled
+            showDialog(
+                context: context,
+                builder: (_) {
+                  return CameraDialog();
+                });
+          } catch (e) {
+            // FormatException to be handled
+            showDialog(
+                context: context,
+                builder: (_) {
+                  return CameraDialog();
+                });
+          }
         },
-        child: Icon(Icons.add),
       ),
     );
   }
@@ -104,7 +161,7 @@ class StreamListStaff extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
         stream: DatabaseFirestore().getStreamCollection(
           collection: 'employees',
-          orderBy: 'last_name',
+          orderBy: _selectedNameStaff.toLowerCase(),
           isDescending: false,
         ),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
